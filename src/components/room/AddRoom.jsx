@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { addRoom } from "../utils/ApiFunctions";
-// import RoomTypeSelector from "../common/RoomTypeSelector";
+import RoomTypeSelector from "../common/RoomTypeSelector";
 
 const AddRoom = () => {
   const [newRoom, setNewRoom] = useState({
@@ -80,10 +80,10 @@ const AddRoom = () => {
                   Room Type
                 </label>
                 <div>
-                  {/* <RoomTypeSelector
+                  <RoomTypeSelector
                     handleRoomInputChange={handleRoomInputChange}
                     newRoom={newRoom}
-                  /> */}
+                  />
                 </div>
               </div>
               <div className="mb-3">
