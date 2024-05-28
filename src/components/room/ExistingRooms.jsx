@@ -22,13 +22,57 @@ const ExistingRooms = () => {
     fetchRooms();
   }, []);
 
-  const fetchRooms = async () => {};
+  const fetchRooms = async () => {
+    setIsLoading(true);
+    try {
+      const result = await getAllRooms();
+      setRooms(result);
+      setIsLoading(false);
+    } catch (error) {
+      setErrorMessage(error.message);
+      setIsLoading(false);
+    }
+  };
 
-  useEffect(() => {});
+  useEffect(() => {
+    if (selectedRoomType === "") {
+      setFilteredRooms(rooms);
+    } else {
+      const filteredRooms = rooms.filter(
+        (room) => room.roomType === selectedRoomType
+      );
+      setFilteredRooms(filteredRooms);
+    }
+    setCurrentPage(1);
+  }, [rooms, selectedRoomType]);
 
-  const handleDelete = async (roomId) => {};
+  const handlePaginationClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
-  const calculateTotalPages = (filteredRooms, roomsPerPage, rooms) => {};
+  const handleDelete = async (roomId) => {
+    try {
+      const result = await deleteRoom(roomId);
+      if (result === "") {
+        setSuccessMessage(`Room No ${roomId} was delete`);
+        fetchRooms();
+      } else {
+        console.error(`Error deleting room : ${result.message}`);
+      }
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+    setTimeout(() => {
+      setSuccessMessage("");
+      setErrorMessage("");
+    }, 3000);
+  };
+
+  const calculateTotalPages = (filteredRooms, roomsPerPage, rooms) => {
+    const totalRooms =
+      filteredRooms.length > 0 ? filteredRooms.length : rooms.length;
+    return Math.ceil(totalRooms / roomsPerPage);
+  };
 
   const indexOfLastRoom = currentPage * roomsPerPage;
   const indexOfFirstRoom = indexOfLastRoom - roomsPerPage;
