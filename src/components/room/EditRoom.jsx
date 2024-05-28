@@ -25,9 +25,39 @@ const EditRoom = () => {
     setRoom({ ...room, [name]: value });
   };
 
-  useEffect(() => {}, [roomId]);
+  useEffect(() => {
+    const fetchRoom = async () => {
+      try {
+        const roomData = await getRoomById(roomId);
+        setRoom(roomData);
+        setImagePreview(roomData.photo);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
-  const handleSubmit = async (e) => {};
+    fetchRoom();
+  }, [roomId]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await updateRoom(roomId, room);
+      if (response.status === 200) {
+        setSuccessMessage("Room updated successfully!");
+        const updatedRoomData = await getRoomById(roomId);
+        setRoom(updatedRoomData);
+        setImagePreview(updatedRoomData.photo);
+        setErrorMessage("");
+      } else {
+        setErrorMessage("Error updating room");
+      }
+    } catch (error) {
+      console.error(error);
+      setErrorMessage(error.message);
+    }
+  };
 
   return (
     <div className="container mt-5 mb-5">
