@@ -14,9 +14,16 @@ const EditRoom = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const { roomId } = useParams();
 
-  const handleImageChange = (e) => {};
+  const handleImageChange = (e) => {
+    const selectedImage = e.target.files[0];
+    setRoom({ ...room, photo: selectedImage });
+    setImagePreview(URL.createObjectURL(selectedImage));
+  };
 
-  const handleInputChange = (event) => {};
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setRoom({ ...room, [name]: value });
+  };
 
   useEffect(() => {}, [roomId]);
 
