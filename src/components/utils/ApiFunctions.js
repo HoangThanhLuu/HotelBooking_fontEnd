@@ -40,3 +40,13 @@ export async function getAllRooms() {
     }
 }
 
+export async function deleteRoom(roomId) {
+    try {
+        const result = await api.delete(`/rooms/delete/room/${roomId}`, {
+            headers: getHeader()
+        })
+        return result.data
+    } catch (error) {
+        throw new Error(`Error deleting room ${error.message}`)
+    }
+}
