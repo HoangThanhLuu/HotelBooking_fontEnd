@@ -3,9 +3,20 @@ import React, { useState } from "react";
 const RoomFilter = ({ data, setFilteredData }) => {
   const [filter, setFilter] = useState("");
 
-  const handleSelectChange = (e) => {};
+  const handleSelectChange = (e) => {
+    const selectedType = e.target.value;
+    setFilter(selectedType);
 
-  const clearFilter = () => {};
+    const filteredRooms = data.filter((room) =>
+      room.roomType.toLowerCase().includes(selectedType.toLowerCase())
+    );
+    setFilteredData(filteredRooms);
+  };
+
+  const clearFilter = () => {
+    setFilter("");
+    setFilteredData(data);
+  };
 
   const roomTypes = ["", ...new Set(data.map((room) => room.roomType))];
 
