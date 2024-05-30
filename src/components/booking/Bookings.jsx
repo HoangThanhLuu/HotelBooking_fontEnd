@@ -8,7 +8,19 @@ const Bookings = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setTimeout(() => {
+      getAllBookings()
+        .then((data) => {
+          setBookingInfo(data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setError(error.message);
+          setIsLoading(false);
+        });
+    }, 1000);
+  }, []);
 
   const handleBookingCancellation = async (bookingId) => {
     try {
