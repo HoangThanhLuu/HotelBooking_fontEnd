@@ -10,7 +10,15 @@ const Bookings = () => {
 
   useEffect(() => {}, []);
 
-  const handleBookingCancellation = async (bookingId) => {};
+  const handleBookingCancellation = async (bookingId) => {
+    try {
+      await cancelBooking(bookingId);
+      const data = await getAllBookings();
+      setBookingInfo(data);
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
     <section style={{ backgroundColor: "whitesmoke" }}>
