@@ -16,7 +16,35 @@ const RoomSearch = () => {
   const [availableRooms, setAvailableRooms] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSearch = (e) => {};
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const checkInMoment = moment(searchQuery.checkInDate);
+    const checkOutMoment = moment(searchQuery.checkOutDate);
+    if (!checkInMoment.isValid() || !checkOutMoment.isValid()) {
+      setErrorMessage("Please enter valid dates");
+      return;
+    }
+    if (!checkOutMoment.isSameOrAfter(checkInMoment)) {
+      setErrorMessage("Check-out date must be after check-in date");
+      return;
+    }
+    setIsLoading(true);
+    getAvailableRooms(
+      searchQuery.checkInDate,
+      searchQuery.checkOutDate,
+      searchQuery.roomType
+    )
+      .then((response) => {
+        setAvailableRooms(response.data);
+        setTimeout(() => setIsLoading(false), 2000);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +55,14 @@ const RoomSearch = () => {
       setErrorMessage("");
     }
   };
-  const handleClearSearch = () => {};
+  const handleClearSearch = () => {
+    setSearchQuery({
+      checkInDate: "",
+      checkOutDate: "",
+      roomType: "",
+    });
+    setAvailableRooms([]);
+  };
 
   return (
     <>
