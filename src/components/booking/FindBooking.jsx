@@ -39,11 +39,46 @@ const FindBooking = () => {
   };
   const [isDeleted, setIsDeleted] = useState(false);
 
-  const handleInputChange = (event) => {};
+  const handleInputChange = (event) => {
+    setConfirmationCode(event.target.value);
+  };
 
-  const handleFormSubmit = async (event) => {};
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true);
 
-  const handleBookingCancellation = async (bookingId) => {};
+    try {
+      const data = await getBookingByConfirmationCode(confirmationCode);
+      setBookingInfo(data);
+      setError(null);
+    } catch (error) {
+      setBookingInfo(emptyBookingInfo);
+      if (error.response && error.response.status === 404) {
+        setError(error.response.data.message);
+      } else {
+        setError(error.message);
+      }
+    }
+
+    setTimeout(() => setIsLoading(false), 2000);
+  };
+
+  const handleBookingCancellation = async (bookingId) => {
+    try {
+      await cancelBooking(bookingInfo.id);
+      setIsDeleted(true);
+      setSuccessMessage("Booking has been cancelled successfully!");
+      setBookingInfo(emptyBookingInfo);
+      setConfirmationCode("");
+      setError(null);
+    } catch (error) {
+      setError(error.message);
+    }
+    setTimeout(() => {
+      setSuccessMessage("");
+      setIsDeleted(false);
+    }, 2000);
+  };
 
   return (
     <>
