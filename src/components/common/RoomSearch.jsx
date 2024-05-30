@@ -18,7 +18,15 @@ const RoomSearch = () => {
 
   const handleSearch = (e) => {};
 
-  const handleInputChange = (e) => {};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setSearchQuery({ ...searchQuery, [name]: value });
+    const checkInDate = moment(searchQuery.checkInDate);
+    const checkOutDate = moment(searchQuery.checkOutDate);
+    if (checkInDate.isValid() && checkOutDate.isValid()) {
+      setErrorMessage("");
+    }
+  };
   const handleClearSearch = () => {};
 
   return (
