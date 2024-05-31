@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { Form, Button, Row, Col, Container } from "react-bootstrap";
 import moment from "moment";
 import { getAvailableRooms } from "../utils/ApiFunctions";
-import RoomSearchResults from "./RoomSearchResult";
+
 import RoomTypeSelector from "./RoomTypeSelector";
+import RoomSearchResults from "./RoomSearchResults";
 
 const RoomSearch = () => {
   const [searchQuery, setSearchQuery] = useState({
