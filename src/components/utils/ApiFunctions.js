@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import axios from "axios";
 
 export const api = axios.create({
@@ -155,5 +156,16 @@ export async function deleteUser(userId) {
         return response.data
     } catch (error) {
         return error.message
+    }
+}
+
+export async function getUser(userId, token) {
+    try {
+        const response = await api.get(`/users/${userId}`, {
+            headers: getHeader()
+        })
+        return response.data
+    } catch (error) {
+        throw error
     }
 }
