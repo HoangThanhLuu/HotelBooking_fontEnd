@@ -1,8 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { addRoom } from "../utils/ApiFunctions";
 import RoomTypeSelector from "../common/RoomTypeSelector";
 import { Link } from "react-router-dom";
+
 const AddRoom = () => {
   const [newRoom, setNewRoom] = useState({
     photo: null,
@@ -66,12 +66,16 @@ const AddRoom = () => {
             <h2 className="mt-5 mb-2">Add a New Room</h2>
             {successMessage && (
               <div className="alert alert-success fade show">
+                {" "}
                 {successMessage}
               </div>
             )}
 
             {errorMessage && (
-              <div className="alert alert-danger fade show">{errorMessage}</div>
+              <div className="alert alert-danger fade show">
+                {" "}
+                {errorMessage}
+              </div>
             )}
 
             <form onSubmit={handleSubmit}>
