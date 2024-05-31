@@ -169,3 +169,14 @@ export async function getUser(userId, token) {
         throw error
     }
 }
+export async function getBookingsByUserId(userId, token) {
+    try {
+        const response = await api.get(`/bookings/user/${userId}/bookings`, {
+            headers: getHeader()
+        })
+        return response.data
+    } catch (error) {
+        console.error("Error fetching bookings:", error.message)
+        throw new Error("Failed to fetch bookings")
+    }
+}
